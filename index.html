@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text"id='email'>
+    <input type="text" id="pass">
+    <button onclick="signup()">click</button>
+    <button onclick="signin()">in</button>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function signup() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            console.log('Signup data:', email, pass); // Log the data being sent
+            axios.post('http://localhost:3000/auth/signup', {
+                email: email,
+                password: pass
+            }).then(response => {
+                console.log('User created successfully:', response.data);
+            }).catch(error => {
+                console.error('Error creating user:', error);
+            });
+        }
+        function signin(){
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+            axios.post('http://localhost:3000/auth/signin',{
+                email:email,
+                password:pass
+            }).then(()=>{
+                console.log('login Succesfully');
+            }).catch(error=>{
+                console.log(error);
+            })
+        }
+
+    </script>
+</body>
+</html>
