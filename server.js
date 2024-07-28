@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -15,16 +17,17 @@ const contact = require('./router/contactRouter');
 
 app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://hossam2003:hossam2003@cluster0.rwl6z1n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {})
+// Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGODB_URI, {})
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
 // Middleware
 app.use(bodyParser.json());
-app.get('/ab',()=>{
-    console.log("hello")
-})
+app.get('/ab', () => {
+    console.log("hello");
+});
+
 // Routes
 app.use('/auth', authRoutes);
 app.use('/faclity', international);
@@ -39,6 +42,7 @@ app.use('/contact', contact);
 app.options('/auth/signup', cors());
 
 // Server
-app.listen(3000, () => {
-    console.log('Server Running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server Running on port ${PORT}`);
 });
